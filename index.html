@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorful Heart 💖</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: black;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #aaff66;
+            font-size: 32px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px #8aff00;
+        }
+
+        p {
+            color: #ffb6e6;
+            margin-bottom: 10px;
+        }
+
+        canvas {
+            width: min(95vw, 600px);
+            height: min(75vh, 600px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>💚 PYTHON HEART 💚</h1>
+    <p>Colorful Heart with Stars ✨</p>
+
+    <canvas id="heart"></canvas>
+
+    <script>
+        const canvas = document.getElementById("heart");
+        const ctx = canvas.getContext("2d");
+
+        const colors = [
+            "red", "blue", "lime", "yellow",
+            "cyan", "magenta", "orange", "pink"
+        ];
+
+        function drawHeart() {
+            const size = Math.min(
+                canvas.clientWidth,
+                canvas.clientHeight
+            );
+
+            canvas.width = size * devicePixelRatio;
+            canvas.height = size * devicePixelRatio;
+
+            ctx.scale(devicePixelRatio, devicePixelRatio);
+
+            const w = canvas.clientWidth;
+            const h = canvas.clientHeight;
+
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, w, h);
+
+            const cx = w / 2;
+            const cy = h / 2 + 10;
+            const scale = size / 38;
+
+            for (let i = 0; i < 120; i++) {
+                const angle = i * Math.PI * 2 / 120;
+
+                const x = 16 * Math.pow(Math.sin(angle), 3);
+                const y = 13 * Math.cos(angle)
+                    - 5 * Math.cos(2 * angle)
+                    - 2 * Math.cos(3 * angle)
+                    - Math.cos(4 * angle);
+
+                const px = cx + x * scale;
+                const py = cy - y * scale;
+
+                const color =
+                    colors[Math.floor(Math.random() * colors.length)];
+
+                // Colorful lines
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(px, py);
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 0.8;
+                ctx.globalAlpha = 0.8;
+                ctx.stroke();
+
+                // Glowing stars
+                ctx.globalAlpha = 1;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = color;
+                ctx.fillStyle = color;
+
+                ctx.font = "12px Arial";
+                ctx.fillText("✦", px - 5, py + 4);
+
+                ctx.shadowBlur = 0;
+            }
+
+            // Small center heart
+            ctx.font = "20px Arial";
+            ctx.fillStyle = "#ff4da6";
+            ctx.fillText("♥", cx - 10, cy + 7);
+        }
+
+        drawHeart();
+    </script>
+
+</body>
+</html>
